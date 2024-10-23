@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { fetchCountries } from '../../utils/api';
 import { View } from 'react-native';
@@ -19,6 +19,8 @@ const CountrySelector = ({ onSelect, task }) => {
     loadCountries();
   }, []);
 
+  const memoizedCountries = useMemo(() => countries, [countries]);
+
   return (
     <View style={[styles.pickerWrapper, { borderColor: theme.pickerBorderColor }]}>
       <Picker
@@ -28,7 +30,7 @@ const CountrySelector = ({ onSelect, task }) => {
         dropdownIconColor={theme.accent}
       >
         <Picker.Item label="Select Country" value="" />
-        {countries.map((country) => (
+        {memoizedCountries.map((country) => (
           <Picker.Item key={country.code} label={country.name} value={country.name} />
         ))}
       </Picker>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { View, ScrollView, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TaskItem from '../components/TaskItem/TaskItem';
@@ -42,6 +42,16 @@ const HomeScreen = () => {
     loadTasks();
   }, []);
 
+  const renderedTaskList = useMemo(() => {
+    return taskList.map((task, index) => (
+      <TaskItem 
+        key={index} 
+        task={task} 
+        onDelete={() => handleDeleteTask(index)}
+      />
+    ));
+  }, [taskList, darkMode]);
+
   return (
     <View className={`p-4 flex-1 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
       <Header />
@@ -49,13 +59,7 @@ const HomeScreen = () => {
       <CreateTask onSaveTask={handleSaveTask} darkMode={darkMode} />
 
       <ScrollView className="mt-4">
-        {taskList.map((task, index) => (
-          <TaskItem 
-            key={index} 
-            task={task} 
-            onDelete={() => handleDeleteTask(index)}
-          />
-        ))}
+        {renderedTaskList}
       </ScrollView>
     </View>
   );

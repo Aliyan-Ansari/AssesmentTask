@@ -29,7 +29,7 @@ const CreateTask = ({ onSaveTask, darkMode }) => {
         className={`border rounded-lg p-2 mb-2 ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'}`}
       />
 
-      <CountrySelector onSelect={(country) => setTask({ ...task, country })} />
+      <CountrySelector task={task} onSelect={(country) => setTask({ ...task, country })} />
 
       <TextInput
         placeholder="Description"
